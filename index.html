@@ -213,9 +213,8 @@
 </script><script>window.Intl=window.Intl||{};Intl.t=function(s){return(Intl._locale&&Intl._locale[s])||s;};</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XAI Chat - Firmin RDC</title>
+<title>XAI Chat - Encadrement intelligent</title>
 <meta name="theme-color" content="#0f172a">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiWEFJIENoYXQiLCJzaG9ydF9uYW1lIjoiWEFJQ2hhdCIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGYxNzJhIiwidGhlbWVfY29sb3IiOiIjMGYxNzJhIiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC90d2Vtb2ppL3R3ZW1vamkvYXNzZXRzL3BuZy8yNTgvMTI4LzI3MTQucG5nIiwic2l6ZXMiOiIxMjh4MTI4IiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark.min.css">
@@ -438,22 +437,6 @@
         color: #f1f5f9;
     }
     
-    .agenda-card {
-        position: relative;
-        padding-left: 1rem;
-    }
-    
-    .agenda-card::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: linear-gradient(180deg, #3b82f6, #6366f1);
-        border-radius: 2px;
-    }
-    
     @media (max-width: 390px) {
         .header-title { font-size: 1rem; }
         .btn-text { display: none; }
@@ -591,6 +574,7 @@
                             <h3 class="font-semibold text-slate-100">Firmin RDC</h3>
                             <p class="text-xs text-slate-400">Utilisateur</p>
                         </div>
+                    </div>
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between py-2 border-b border-slate-700/30">
                             <span class="text-slate-400">Session ID</span>
@@ -602,7 +586,7 @@
                         </div>
                         <div class="flex justify-between py-2">
                             <span class="text-slate-400">Version</span>
-                            <span class="text-xs text-slate-300">2.0 Markdown</span>
+                            <span class="text-xs text-slate-300">2.1 Smart Frames</span>
                         </div>
                     </div>
                 </div>
@@ -682,10 +666,19 @@
         return new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     }
 
-    function detectAgenda(text) {
-        const timePattern = /\b\d{1,2}[h:]\d{0,2}\b|\b\d{1,2}:\d{2}\b/i;
-        const keywords = /(devoir|agenda|rendez-vous|planning|tâche|todo|faire|exercice)/i;
-        return timePattern.test(text) || keywords.test(text);
+    function needsFrame(text) {
+        // 1. Detect code blocks ```
+        const hasCodeBlock = /```[\s\S]*?```/.test(text);
+        
+        // 2. Detect time patterns HH:MM or HHℎMM or HH:MM-HH:MM
+        const timePattern = /\b\d{1,2}[h:]\d{0,2}\b|\b\d{1,2}:\d{2}\b/;
+        const hasTime = timePattern.test(text);
+        
+        // 3. Detect keywords: agenda, devoir, cours, emploi du temps, planning, exercice
+        const keywords = /\b(agenda|devoirs?|cours|emploi du temps|planning|exercice|tâches?|todo)\b/i;
+        const hasKeyword = keywords.test(text);
+        
+        return hasCodeBlock || (hasTime && hasKeyword) || hasCodeBlock && hasKeyword;
     }
 
     function escapeHtml(text) {
@@ -695,18 +688,11 @@
     }
 
     function renderMarkdown(content) {
-        // Detect if it looks like agenda/devoirs
-        const isAgenda = detectAgenda(content);
         const rawHtml = marked.parse(content);
-        const sanitized = DOMPurify.sanitize(rawHtml, {
+        return DOMPurify.sanitize(rawHtml, {
             ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'u', 's', 'code', 'pre', 'ul', 'ol', 'li', 'blockquote', 'a', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'hr'],
             ALLOWED_ATTR: ['href', 'class', 'target', 'rel']
         });
-        
-        if (isAgenda) {
-            return `<div class="glass-strong rounded-xl p-3 my-2 agenda-card">${sanitized}</div>`;
-        }
-        return sanitized;
     }
 
     function addMessage(content, isUser = false) {
@@ -715,7 +701,22 @@
         msgDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-enter`;
         
         const timeStr = getTimeString();
-        const processedContent = isUser ? `<p class="whitespace-pre-wrap break-words">${escapeHtml(content)}</p>` : `<div class="markdown-content">${renderMarkdown(content)}</div>`;
+        let processedContent;
+        
+        if (isUser) {
+            processedContent = `<p class="whitespace-pre-wrap break-words">${escapeHtml(content)}</p>`;
+        } else {
+            const shouldFrame = needsFrame(content);
+            const markdownHtml = renderMarkdown(content);
+            
+            if (shouldFrame) {
+                // Message code/agenda/cours: encadré
+                processedContent = `<div class="glass-strong rounded-xl p-4 my-2 border border-slate-600/50"><div class="markdown-content">${markdownHtml}</div></div>`;
+            } else {
+                // Message normal: pleine largeur du message-ai
+                processedContent = `<div class="markdown-content">${markdownHtml}</div>`;
+            }
+        }
         
         msgDiv.innerHTML = `
             <div class="${isUser ? 'message-user' : 'message-ai'} rounded-2xl px-4 py-3 max-w-[85%] sm:max-w-[75%]">
@@ -871,22 +872,10 @@
         });
     });
 
-    // PWA Service Worker
-    if ('serviceWorker' in navigator) {
-        const sw = `
-            self.addEventListener('install', e => self.skipWaiting());
-            self.addEventListener('activate', e => e.waitUntil(clients.claim()));
-            self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
-        `;
-        const blob = new Blob([sw], { type: 'application/javascript' });
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-    }
-
     // Init
     updateStatus('unknown');
     loadHistory();
 </script>
-<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 <script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 </body>
 </html>
