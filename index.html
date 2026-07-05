@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0f172a">
-<link rel="apple-touch-icon" href="/icon-192.png">
 <!-- Playables SDK -->
 <script>// Playables SDK v1.0.0
 // Game lifecycle bridge: rAF-based game-ready detection + event communication
@@ -866,13 +863,5 @@
   messageInput.focus();
 </script>
 <script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('[PWA] SW registered'))
-      .catch(err => console.log('[PWA] SW failed'));
-  });
-}
 </body>
 </html>
