@@ -1,0 +1,26 @@
+{
+  "name": "XAI Chat",
+  "short_name": "XAI",
+  "description": "Assistant XAI avec encadrement intelligent",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEM3OS40MzE1IDQ4IDY2IDYxLjQzMTUgNjYgNzhDNjYgOTQuNTY4NSA3OS40MzE1IDEwOCA5NiAxMDhDOTcuMDY1NCAxMDggOTguMTEzIDEwNy45MiA5OS4xNDI2IDEwNy43NjZDNzkuOTQ1MyAxMTAuMzQ4IDY0IDEyOC40NjEgNjQgMTUwSDEyOEMxMjggMTI4LjQ2MSAxMTIuMDU1IDExMC4zNDggOTIuODU3NCAxMDcuNzY2QzkzLjg4NyAxMDcuOTIgOTQuOTM0NiAxMDggOTYgMTA4QzExMi41NjkgMTA4IDEyNiA5NC41Njg1IDEyNiA3OEMxMjYgNjEuNDMxNSAxMTIuNTY5IDQ4IDk2IDQ4WiIgZmlsbD0id2hpdGUiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjE5MiIgeTI9IjE5MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjM0I4MkY2Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzI1NjNFQiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTEyIiBmaWxsPSJ1cmwoI2dyYWRpZW50MF9saW5lYXJfMV8xKSIvPgo8cGF0aCBkPSJNMjU2IDEyOEMyMTIuMDE5IDEyOCAxNzYgMTY0LjAxOSAxNzYgMjA4QzE3NiAyNTEuOTgxIDIxMi4wMTkgMjg4IDI1NiAyODhDMjU4Ljg0MSAyODggMjYxLjYzNSAyODcuNzkgMjY0LjM4MSAyODcuMzc2QzIxMi41ODkgMjk0LjE4NiAxNzYgMzQyLjE5NiAxNzYgNDAwSDMzNkMzMzYgMzQyLjE5NiAyOTkuNDExIDI5NC4xODYgMjQ3LjYxOSAyODcuMzc2QzI1MC4zNjUgMjg3Ljc5IDI1My4xNTkgMjg4IDI1NiAyODhDMjk5Ljk4MSAyODggMzM2IDI1MS45ODEgMzM2IDIwOEMzMzYgMTY0LjAxOSAyOTkuOTgxIDEyOCAyNTYgMTI4WiIgZmlsbD0id2hpdGUiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjUxMiIgeTI9IjUxMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjM0I4MkY2Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzI1NjNFQiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": []
+}
